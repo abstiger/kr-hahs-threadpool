@@ -1,0 +1,11 @@
+A Simple Half-Sync/Half-Async Thread Pool Implementation using Pthreads
+
+kr_queue is implemented with a simple modification of linux kernel's list.
+
+kr_threadpool_add_task() will be invoked by main thread to add task to queue.
+
+kr_threadpool_create() is used to create such a thread pool.
+kr_threadpool_run() let this thread pool run.
+kr_threadpool_destroy() destroy this thread pool. 
+
+Check kr_queue_test.c and kr_threadpool_test.c for details.
