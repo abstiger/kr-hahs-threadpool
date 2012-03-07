@@ -8,8 +8,7 @@ int kr_queue_init(kr_queue_t **q, unsigned int hwm)
 {
     /*alloc queue memory*/
     *q = (kr_queue_t *)calloc(1, sizeof(kr_queue_t));
-    if(*q == NULL) 
-    {
+    if(*q == NULL) {
         fprintf(stderr, "calloc kr_queue_t error!\n");
         return -1;
     }
@@ -27,8 +26,7 @@ int kr_queue_push(kr_queue_t *q, void *data)
     assert(q);
     
     /*check current queue length*/
-    if (q->len >= q->hwm)
-    {
+    if (q->len >= q->hwm) {
         fprintf(stderr, "queue length [%u] >= high watermark[%u]\n", \
                 q->len, q->hwm);
         return -1;
@@ -37,8 +35,7 @@ int kr_queue_push(kr_queue_t *q, void *data)
     /*create new node*/
     kr_queue_node_t *node = \
         (kr_queue_node_t *)calloc(1, sizeof(kr_queue_node_t));
-    if(node == NULL) 
-    {
+    if(node == NULL) {
         fprintf(stderr, "calloc kr_queue_node_t error!\n");
         return -1;
     }
@@ -60,13 +57,18 @@ printf("push data[%s][%p]\n", (char *)node->data, node->data);
 void *kr_queue_pop(kr_queue_t *q) 
 {
     assert(q);
-        
+    
+    /*check queue's length*/
+    if (q->len <= 0) {
+        fprintf(stderr, "queue is empty!\n");
+        return NULL;
+    }
+    
     /*get the queue's head then deleted*/
     kr_queue_node_t *node = NULL;
     node = kr_list_first_entry(&q->head, kr_queue_node_t, list);
-    if (node == NULL)
-    {
-        fprintf(stderr, "queue is empty!\n");
+    if (node == NULL) {
+        fprintf(stderr, "pop queue head error!\n");
         return NULL;
     }
     
